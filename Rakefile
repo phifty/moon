@@ -1,5 +1,12 @@
 require 'rake/rdoctask'
 
+# Cucumber
+require 'cucumber/rake/task'
+
+Cucumber::Rake::Task.new(:features) do |task|
+  task.cucumber_opts = "--format pretty"
+end
+
 # RSpec
 require 'rspec/core/rake_task'
 

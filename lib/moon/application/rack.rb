@@ -61,7 +61,7 @@ class Moon::Application::Rack
     end
 
     def actions
-      @route[:actions] || [ ]
+      @route[:actions].is_a?(Array) ? @route[:actions] : [ @route[:actions] ].compact
     end
 
     def define
