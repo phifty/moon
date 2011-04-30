@@ -3,41 +3,24 @@ require File.expand_path(File.join(File.dirname(__FILE__), "..", "..", "..", "sp
 describe Moon::Validator::Presence do
 
   before :each do
-    @validator = described_class.new "value"
+    @validator = described_class.new
   end
 
-  describe "#ok?" do
-
-    it "should return true" do
-      ok = @validator.ok?
-      ok.should be_true
-    end
-
-    it "should return false if value is nil" do
-      @validator.value = nil
-      ok = @validator.ok?
-      ok.should be_false
-    end
-
-    it "should return false if value is blank" do
-      @validator.value = ""
-      ok = @validator.ok?
-      ok.should be_false
-    end
-
-  end
-
-  describe "#message" do
+  describe "#messages" do
 
     it "should return an empty array" do
-      message = @validator.message
-      message.should be_nil
+      messages = @validator.messages "value"
+      messages.should == [ ]
     end
 
-    it "should return an error message if value if blank" do
-      @validator.value = ""
-      message = @validator.message
-      message.should == "Must be present."
+    it "should return an error message if value is nil" do
+      messages = @validator.messages nil
+      messages.should == [ "Must be present." ]
+    end
+
+    it "should return an error message if value is blank" do
+      messages = @validator.messages ""
+      messages.should == [ "Must be present." ]
     end
 
   end

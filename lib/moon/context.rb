@@ -2,7 +2,7 @@
 # Context class that contains anything necessary to run a guard, action or response builder.
 class Moon::Context
 
-  attr_accessor :storage_name
+  attr_accessor :application
 
   def initialize(session = { }, parameters = { })
     @session, @parameters = session, parameters

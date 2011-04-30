@@ -6,12 +6,17 @@ describe Moon::Action::ValidModelsRequired do
     @model_class = mock Class
     @model = mock Object, :class => @model_class
 
+    @checks = { }
+    @validators = { @model_class => @checks }
+    @configuration = mock Moon::Application::Configuration, :validators => @validators
+    @application = mock Moon::Application, :configuration => @configuration
+
     @context = Moon::Context.new
+    @context.application = @application
     @context.models[:model] = @model
 
-    @validator = mock Moon::Validator, :ok? => true, :messages => { :email => [ "Has a wrong format." ] }
-    @validator_class = mock Moon::Validator, :new => @validator
-    Moon::Validator.stub(:[]).and_return(@validator_class)
+    @validator = mock Moon::Validator, :messages => { }
+    Moon::Validator.stub :new => @validator
 
     @response = mock Moon::Response::JSON::ValidationErrors
     Moon::Response::JSON::ValidationErrors.stub :new => @response
@@ -19,18 +24,13 @@ describe Moon::Action::ValidModelsRequired do
 
   describe "perform" do
 
-    it "should get the validator class for the right model class" do
-      Moon::Validator.should_receive(:[]).with(@model_class).and_return(@validator_class)
-      described_class.perform @context
-    end
-
-    it "should initialize the validator with the right model" do
-      @validator_class.should_receive(:new).with(@model).and_return(@validator)
+    it "should initialize the validator with the right checks" do
+      Moon::Validator.should_receive(:new).with(@checks).and_return(@validator)
       described_class.perform @context
     end
 
     it "should run the validator" do
-      @validator.should_receive(:ok?).and_return(true)
+      @validator.should_receive(:messages).and_return({ })
       described_class.perform @context
     end
 
@@ -42,7 +42,7 @@ describe Moon::Action::ValidModelsRequired do
     context "on failing validation" do
 
       before :each do
-        @validator.stub :ok? => false
+        @validator.stub :messages => { :email => [ "Has a wrong format." ] }
       end
 
       it "should initialize #{Moon::Response::JSON::ValidationErrors}" do

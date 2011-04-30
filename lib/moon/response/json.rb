@@ -3,6 +3,7 @@ require 'json'
 # Moon::Response::JSON is the base class for all json responses.
 class Moon::Response::JSON < Moon::Response::Base
 
+  autoload :Blank, File.join(File.dirname(__FILE__), "json", "blank")
   autoload :Collection, File.join(File.dirname(__FILE__), "json", "collection")
   autoload :Message, File.join(File.dirname(__FILE__), "json", "message")
   autoload :Model, File.join(File.dirname(__FILE__), "json", "model")

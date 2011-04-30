@@ -7,7 +7,8 @@ class Moon::Application::Rack
   attr_reader :transponder
   attr_reader :environment
 
-  def initialize
+  def initialize(application)
+    @application = application
     initialize_transponder
   end
 
@@ -36,7 +37,7 @@ class Moon::Application::Rack
 
   def map_routes
     @routes.each do |route|
-      Route.new(@transponder, route).define
+      Route.new(@application, @transponder, route).define
     end
   end
 
@@ -46,10 +47,9 @@ class Moon::Application::Rack
     attr_reader :response
     attr_reader :rack_response
 
-    def initialize(transponder, route)
-      @transponder = transponder
+    def initialize(application, transponder, route)
+      @application, @transponder, @route = application, transponder, route
       @environment = @transponder.environment
-      @route = route
     end
 
     def http_method
@@ -61,7 +61,8 @@ class Moon::Application::Rack
     end
 
     def actions
-      @route[:actions].is_a?(Array) ? @route[:actions] : [ @route[:actions] ].compact
+      actions = @route[:actions]
+      actions.is_a?(Array) ? actions : [ actions ].compact
     end
 
     def define
@@ -82,7 +83,7 @@ class Moon::Application::Rack
 
     def build_context(session, params)
       @context = Moon::Context.new session, params
-      @context.storage_name = Moon::Application.storage_name @environment
+      @context.application = @application
     end
 
     def perform_actions

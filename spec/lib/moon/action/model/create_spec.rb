@@ -6,15 +6,16 @@ describe Moon::Action::Model::Create do
     @model_class = mock Class, :to_s => "Model"
     @model = mock Object, :class => @model_class
 
+    @application = mock Moon::Application, :storage_name => :dump
+
     @context = Moon::Context.new
-    @context.storage_name = :dump
+    @context.application = @application
     @context.models[:model] = @model
 
-    described_class.model_class = @model_class
-    @action = described_class.new @context
+    @action = described_class.new @model_class
   end
 
-  describe "perform" do
+  describe "#perform" do
 
     before :each do
       GOM::Storage.stub :store
@@ -29,81 +30,35 @@ describe Moon::Action::Model::Create do
 
     it "should store the model on the right storage" do
       GOM::Storage.should_receive(:store).with(@model, :dump)
-      @action.perform
+      @action.perform @context
     end
 
     it "should initialize #{Moon::Response::JSON::Model}" do
       Moon::Response::JSON::Model.should_receive(:new).with(:model, @model).and_return(@model_response)
-      @action.perform
+      @action.perform @context
     end
 
     it "should return the model response" do
-      response = @action.perform
+      response = @action.perform @context
       response.should == @model_response
     end
 
     it "should do nothing if the model isn't initialized" do
       @context.models[:model] = nil
       GOM::Storage.should_not_receive(:store)
-      @action.perform
+      @action.perform @context
     end
 
     it "should initialize the 'failed' message response if the model isn't initialized" do
       @context.models[:model] = nil
       Moon::Response::JSON::Message.should_receive(:new).with(200, "No model initialized.").and_return(@message_response)
-      @action.perform
+      @action.perform @context
     end
 
     it "should return 'failed' message response if the model isn't initialized" do
       @context.models[:model] = nil
-      response = @action.perform
+      response = @action.perform @context
       response.should == @message_response
-    end
-
-  end
-
-  describe "model" do
-
-    it "should return the model" do
-      model = @action.model
-      model.should == @model
-    end
-
-  end
-
-  describe "self.model_symbol" do
-
-    it "should return the model symbol" do
-      model_symbol = described_class.model_symbol
-      model_symbol.should == :model
-    end
-
-  end
-
-  describe "self.model_class" do
-
-    it "should return the model class" do
-      model_class = described_class.model_class
-      model_class.should == @model_class
-    end
-
-  end
-
-  describe "self.[]" do
-
-    it "should return a class" do
-      result = described_class[Object]
-      result.should be_instance_of(Class)
-    end
-
-    it "should return a different class" do
-      result = described_class[Object]
-      result.should_not == described_class
-    end
-
-    it "should return a class connected to the given model class" do
-      result = described_class[Object]
-      result.model_class.should == Object
     end
 
   end

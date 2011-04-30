@@ -11,13 +11,15 @@ class Moon::Application
   # This error is raised if a response doesn't respond to :status, :headers and :body.
   class InvalidResponseError < StandardError; end
 
+  attr_reader :configuration
+
   def initialize
-    @rack = Rack.new
+    @rack = Rack.new self
   end
 
   def configure(&block)
-    configuration = Configuration.new &block
-    @rack.routes = configuration.routes
+    @configuration = Configuration.new &block
+    @rack.routes = @configuration.routes
   end
 
   def rack
@@ -28,8 +30,8 @@ class Moon::Application
     @rack.environment
   end
 
-  def self.storage_name(environment)
-    environment == :test ? :dump : :main
+  def storage_name
+    @rack.environment == :test ? :dump : :main
   end
 
 end

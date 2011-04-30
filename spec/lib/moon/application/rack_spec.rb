@@ -3,9 +3,9 @@ require File.expand_path(File.join(File.dirname(__FILE__), "..", "..", "..", "sp
 describe Moon::Application::Rack do
 
   before :each do
-    Moon::Application.stub :storage_name => :storage_name
+    @application = mock Moon::Application
 
-    @context = mock Moon::Context, :storage_name= => nil
+    @context = mock Moon::Context, :application= => nil
     Moon::Context.stub :new => @context
 
     @response = mock Moon::Response::Base, :status => 200, :headers => { }, :body => "OK"
@@ -13,7 +13,7 @@ describe Moon::Application::Rack do
     @action_one = mock Object, :perform => nil
     @action_two = mock Class, :perform => @response
 
-    @rack = described_class.new
+    @rack = described_class.new @application
     @rack.routes = [
       {
         :http_method => :get,
@@ -33,8 +33,8 @@ describe Moon::Application::Rack do
     @browser.get "/test/5"
   end
 
-  it "should set the storage name in the context" do
-    @context.should_receive(:storage_name=).with(:storage_name)
+  it "should set the application in the context" do
+    @context.should_receive(:application=).with(@application)
     @browser.get "/test/5"
   end
 

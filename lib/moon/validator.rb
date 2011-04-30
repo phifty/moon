@@ -6,66 +6,38 @@ class Moon::Validator
   autoload :Length, File.join(File.dirname(__FILE__), "validator", "length")
   autoload :Presence, File.join(File.dirname(__FILE__), "validator", "presence")
 
-  attr_reader :model
+  attr_reader :model_class
 
-  def initialize(model)
-    @model = model
+  def initialize(checks)
+    @checks = checks
   end
 
-  def ok?
-    perform_checks
-    @ok
-  end
-
-  def messages
-    perform_checks
+  def messages(model)
+    perform_checks model
     @messages
   end
 
   private
 
-  def perform_checks
-    @ok, @messages = true, { }
-    self.class.checks.each do |attribute, attribute_validator_class|
-      perform_attribute_checks attribute, attribute_validator_class
+  def perform_checks(model)
+    @messages = { }
+    @checks.each do |attribute, attribute_validator|
+      value = model.send attribute
+      perform_attribute_checks attribute, value, [ attribute_validator ].compact.flatten
     end
   end
 
-  def perform_attribute_checks(attribute, attribute_validator_classes)
-    attribute_validator_classes.each do |attribute_validator_class|
-      attribute_validator = attribute_validator_class.new @model.send(attribute)
-      ok, message = attribute_validator.ok?, attribute_validator.message
-      @ok &&= ok
-      add_message attribute, ok, message
+  def perform_attribute_checks(attribute, value, attribute_validators)
+    attribute_validators.each do |attribute_validator|
+      messages = attribute_validator.messages value
+      add_messages attribute, messages
     end
   end
 
-  def add_message(attribute, ok, message)
-    return if ok || !message
+  def add_messages(attribute, messages)
+    return if messages.empty?
     @messages[attribute] ||= [ ]
-    @messages[attribute] << message
-  end
-
-  def self.configuration=(value)
-    @configuration = value
-  end
-
-  def self.configuration
-    @configuration
-  end
-
-  def self.checks=(value)
-    @checks = value
-  end
-
-  def self.checks
-    @checks || { }
-  end
-
-  def self.[](model_class)
-    validator = self.dup
-    validator.checks = self.configuration[model_class]
-    validator
+    @messages[attribute] += messages
   end
 
 end

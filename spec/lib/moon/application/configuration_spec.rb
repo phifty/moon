@@ -4,11 +4,18 @@ describe Moon::Application::Configuration do
 
   before :each do
     @action = action = Object.new
+    @attribute_validator = attribute_validator = Object.new
     @configuration = described_class.new {
       route {
         http_method :get
         path "/test"
         actions action
+      }
+      validator {
+        model_class Object
+        attributes {
+          name attribute_validator
+        }
       }
     }
   end
@@ -20,6 +27,17 @@ describe Moon::Application::Configuration do
       routes.should == [
         { :http_method => :get, :path => "/test", :actions => @action }
       ]
+    end
+
+  end
+
+  describe "#validators" do
+
+    it "should return a hash with the defined validators" do
+      validators = @configuration.validators
+      validators.should == {
+        Object => { :name => @attribute_validator }
+      }
     end
 
   end

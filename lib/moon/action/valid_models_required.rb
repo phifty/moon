@@ -12,10 +12,16 @@ class Moon::Action::ValidModelsRequired
   def self.validate_models(context)
     validation_errors = { }
     context.models.each do |key, model|
-      validator = Moon::Validator[model.class].new model
-      validation_errors[key] = validator.messages unless validator.ok?
+      messages = validate_model context, key, model
+      validation_errors[key] = messages unless messages.empty?
     end
     validation_errors
+  end
+
+  def self.validate_model(context, key, model)
+    checks = context.application.configuration.validators[model.class]
+    validator = Moon::Validator.new checks
+    validator.messages model
   end
 
 end

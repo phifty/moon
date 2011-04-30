@@ -5,8 +5,9 @@ describe Moon::Action::Model::Update do
   before :each do
     @model = mock Object
 
+    @application = mock Moon::Application, :storage_name => :dump
     @context = Moon::Context.new
-    @context.storage_name = :dump
+    @context.application = @application
     @context.models[:model] = @model
 
     described_class.model_symbol = :model

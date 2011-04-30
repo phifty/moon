@@ -1,32 +1,13 @@
 
 # Value format validator.
 class Moon::Validator::Format
-  extend Moon::Utility::Template
 
-  template :format
-
-  attr_accessor :value
-
-  def initialize(value)
-    @value = value
-    @ok, @message = true, nil
+  def initialize(format)
+    @format = format
   end
 
-  def ok?
-    check
-    @ok
-  end
-
-  def message
-    check
-    @message
-  end
-
-  private
-
-  def check
-    @ok = @value =~ self.class.format
-    @message = "Has a wrong format." unless @ok
+  def messages(value)
+    value =~ @format ? [ ] : [ "Has a wrong format." ]
   end
 
 end
