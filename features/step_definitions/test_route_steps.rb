@@ -8,7 +8,7 @@ class TestAction
 end
 
 Given /^the test route$/ do
-  application.routes.define do
+  application.configure do
     route {
       http_method :get
       path "/test"
