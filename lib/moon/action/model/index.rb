@@ -7,7 +7,7 @@ class Moon::Action::Model::Index
   end
 
   def perform(context)
-    Moon::Response::JSON::Collection.new context.collections[@collection_key]
+    Moon::Response::JSON::Collection.new context.collections[@collection_key], context.application.configuration.formatters
   end
 
 end

@@ -22,8 +22,8 @@ Given /^the create post resource route$/ do
     route {
       http_method :post
       path "/posts"
-      actions Moon::Action::Models::Initializer,
-              Moon::Action::ValidModelsRequired,
+      actions Moon::Action::Models::Initializer.new,
+              Moon::Action::ValidModelsRequired.new,
               Moon::Action::RespondBlank.new
     }
     validator {
@@ -40,7 +40,7 @@ Given /^the show post resource route$/ do
     route {
       http_method :get
       path "/posts/1"
-      actions Moon::Action::Models::Initializer,
+      actions Moon::Action::Models::Initializer.new,
               Moon::Action::Model::Show.new(:post)
     }
     formatter {

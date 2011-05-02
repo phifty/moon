@@ -5,8 +5,11 @@ describe Moon::Action::Model::Index do
   before :each do
     @collection = mock GOM::Object::Collection
 
+    @configuration = mock Moon::Application::Configuration, :formatters => :formatters
+    @application = mock Moon::Application, :configuration => @configuration
     @context = Moon::Context.new
-    @context.collections[:sites] = @collection
+    @context.application = @application
+    @context.collections[:test] = @collection
 
     @response = mock Moon::Response::JSON::Collection
     Moon::Response::JSON::Collection.stub :new => @response
@@ -17,7 +20,7 @@ describe Moon::Action::Model::Index do
   describe "perform" do
 
     it "should initialize a collection response" do
-      Moon::Response::JSON::Collection.should_receive(:new).and_return(@response)
+      Moon::Response::JSON::Collection.should_receive(:new).with(@collection, :formatters).and_return(@response)
       @action.perform @context
     end
 
