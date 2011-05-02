@@ -5,6 +5,7 @@ describe Moon::Application::Configuration do
   before :each do
     @action = action = Object.new
     @attribute_validator = attribute_validator = Object.new
+    @formatter = formatter = Object.new
     @configuration = described_class.new {
       route {
         http_method :get
@@ -16,6 +17,10 @@ describe Moon::Application::Configuration do
         attributes {
           name attribute_validator
         }
+      }
+      formatter {
+        model_class Object
+        object formatter
       }
     }
   end
@@ -37,6 +42,17 @@ describe Moon::Application::Configuration do
       validators = @configuration.validators
       validators.should == {
         Object => { :name => @attribute_validator }
+      }
+    end
+
+  end
+
+  describe "#formatters" do
+
+    it "should return a hash with the defined formatters" do
+      formatters = @configuration.formatters
+      formatters.should == {
+        Object => @formatter
       }
     end
 

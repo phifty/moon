@@ -5,45 +5,28 @@ describe Moon::Action::Model::Show do
   before :each do
     @model = mock Object
 
+    @configuration = mock Moon::Application::Configuration, :formatters => :formatters
+    @application = mock Moon::Application, :configuration => @configuration
     @context = Moon::Context.new
+    @context.application = @application
     @context.models[:test] = @model
 
     @response = mock Moon::Response::JSON::Model
     Moon::Response::JSON::Model.stub :new => @response
 
-    described_class.model_key = :test
-    @action = described_class.new @context
+    @action = described_class.new :test
   end
 
   describe "perform" do
 
     it "should initialize a model response" do
-      Moon::Response::JSON::Model.should_receive(:new).with(:test, @model).and_return(@response)
-      @action.perform
+      Moon::Response::JSON::Model.should_receive(:new).with(:test, @model, :formatters).and_return(@response)
+      @action.perform @context
     end
 
     it "should return the response" do
-      response = @action.perform
+      response = @action.perform @context
       response.should == @response
-    end
-
-  end
-
-  describe "self.[]" do
-
-    it "should return a class" do
-      result = described_class[:test]
-      result.should be_instance_of(Class)
-    end
-
-    it "should return a different class" do
-      result = described_class[:test]
-      result.should_not == described_class
-    end
-
-    it "should return a class connected to the given model key" do
-      result = described_class[:test]
-      result.model_key.should == :test
     end
 
   end

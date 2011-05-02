@@ -4,7 +4,7 @@ require 'configure'
 class Moon::Application::Configuration
 
   SCHEMA = Configure::Schema.build {
-    only :route, :validator
+    only :route, :validator, :formatter
     nested {
       route {
         only :http_method, :path, :actions
@@ -12,6 +12,9 @@ class Moon::Application::Configuration
       }
       validator {
         only :model_class, :attributes
+      }
+      formatter {
+        only :model_class, :object
       }
     }
   }.freeze
@@ -31,6 +34,15 @@ class Moon::Application::Configuration
       validators[model_class] = attributes
     end
     validators
+  end
+
+  def formatters
+    formatters = { }
+    [ @hash[:formatter] ].compact.flatten.each do |formatter_hash|
+      model_class, object = formatter_hash.values_at :model_class, :object
+      formatters[model_class] = object
+    end
+    formatters
   end
 
 end

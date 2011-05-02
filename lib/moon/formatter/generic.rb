@@ -1,8 +1,9 @@
 
 # Outputs a hash with all instance variables of the given model.
-class Moon::Formatter::Generic < Moon::Formatter::Base
+class Moon::Formatter::Generic
 
-  def hash
+  def hash(model)
+    @model = model
     initialize_hash
     inject_instance_variables
     inject_id

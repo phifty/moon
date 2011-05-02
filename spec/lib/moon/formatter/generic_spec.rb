@@ -10,18 +10,18 @@ describe Moon::Formatter::Generic do
     @id = mock GOM::Object::Id
     GOM::Object.stub :id => @id
 
-    @formatter = described_class.new @model
+    @formatter = described_class.new
   end
 
   describe "hash" do
 
     it "should fetch the object's id" do
       GOM::Object.should_receive(:id).with(@model).and_return(@id)
-      @formatter.hash
+      @formatter.hash @model
     end
 
     it "should return a hash with all instance variables" do
-      hash = @formatter.hash
+      hash = @formatter.hash @model
       hash.should == {
         :id => @id,
         :options => [ ],
