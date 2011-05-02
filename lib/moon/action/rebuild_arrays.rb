@@ -2,11 +2,8 @@
 # Converts each hash with numeric keys { "0" => "one", "1" => "two" } into arrays [ "one", "two" ].
 class Moon::Action::RebuildArrays
 
-  def initialize(context)
+  def perform(context)
     @context = context
-  end
-
-  def perform
     @context.parameters = self.class.rebuild_arrays @context.parameters
     nil
   end

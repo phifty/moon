@@ -7,28 +7,30 @@ describe Moon::Action::Models::Finder do
 
     @model = Object.new
     GOM::Storage.stub :fetch => @model
+
+    @action = described_class.new
   end
 
   describe "self.perform" do
 
     it "should fetch the model using the right id" do
       GOM::Storage.should_receive(:fetch).with("test:4").and_return(@model)
-      described_class.perform @context
+      @action.perform @context
     end
 
     it "should set the found models in the context" do
-      described_class.perform @context
+      @action.perform @context
       @context.models[:site].should == @model
     end
 
     it "should return nil" do
-      response = described_class.perform @context
+      response = @action.perform @context
       response.should be_nil
     end
 
     it "should not fetch non-id values" do
       GOM::Storage.should_not_receive(:fetch).with("test value")
-      described_class.perform @context
+      @action.perform @context
     end
 
   end

@@ -10,8 +10,9 @@ class Moon::Action::Model::Create
   def perform(context)
     model = context.models[@model_symbol]
     if model
-      GOM::Storage.store model, context.application.storage_name
-      Moon::Response::JSON::Model.new @model_symbol, model
+      application = context.application
+      GOM::Storage.store model, application.storage_name
+      Moon::Response::JSON::Model.new @model_symbol, model, application.configuration.formatters
     else
       Moon::Response::JSON::Message.new 200, "No model initialized."
     end

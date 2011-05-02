@@ -20,22 +20,24 @@ describe Moon::Action::ValidModelsRequired do
 
     @response = mock Moon::Response::JSON::ValidationErrors
     Moon::Response::JSON::ValidationErrors.stub :new => @response
+
+    @action = described_class.new
   end
 
   describe "perform" do
 
     it "should initialize the validator with the right checks" do
       Moon::Validator.should_receive(:new).with(@checks).and_return(@validator)
-      described_class.perform @context
+      @action.perform @context
     end
 
     it "should run the validator" do
       @validator.should_receive(:messages).and_return({ })
-      described_class.perform @context
+      @action.perform @context
     end
 
     it "should return nil" do
-      response = described_class.perform @context
+      response = @action.perform @context
       response.should be_nil
     end
 
@@ -49,11 +51,11 @@ describe Moon::Action::ValidModelsRequired do
         Moon::Response::JSON::ValidationErrors.should_receive(:new).with(
           :model => { :email => [ "Has a wrong format." ] }
         ).and_return(@response)
-        described_class.perform @context
+        @action.perform @context
       end
 
       it "should return the validation errors response" do
-        response = described_class.perform @context
+        response = @action.perform @context
         response.should == @response
       end
 

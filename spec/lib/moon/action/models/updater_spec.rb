@@ -10,24 +10,26 @@ describe Moon::Action::Models::Updater do
 
     @context = Moon::Context.new({ }, :decision => { :pick => 1 })
     @context.models[:decision] = @model
+
+    @action = described_class.new
   end
 
   describe "self.perform" do
 
     it "should change the model's attributes" do
       lambda do
-        described_class.perform @context
+        @action.perform @context
       end.should change(@model, :pick).from(0).to(1)
     end
 
     it "should not change the model's attributes that are not specified" do
       lambda do
-        described_class.perform @context
+        @action.perform @context
       end.should_not change(@model, :options)
     end
 
     it "should return nil" do
-      response = described_class.perform @context
+      response = @action.perform @context
       response.should be_nil
     end
 

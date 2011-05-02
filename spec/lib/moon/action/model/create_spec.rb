@@ -6,8 +6,8 @@ describe Moon::Action::Model::Create do
     @model_class = mock Class, :to_s => "Model"
     @model = mock Object, :class => @model_class
 
-    @application = mock Moon::Application, :storage_name => :dump
-
+    @configuration = mock Moon::Application::Configuration, :formatters => :formatters
+    @application = mock Moon::Application, :configuration => @configuration, :storage_name => :dump
     @context = Moon::Context.new
     @context.application = @application
     @context.models[:model] = @model
@@ -34,7 +34,7 @@ describe Moon::Action::Model::Create do
     end
 
     it "should initialize #{Moon::Response::JSON::Model}" do
-      Moon::Response::JSON::Model.should_receive(:new).with(:model, @model).and_return(@model_response)
+      Moon::Response::JSON::Model.should_receive(:new).with(:model, @model, :formatters).and_return(@model_response)
       @action.perform @context
     end
 

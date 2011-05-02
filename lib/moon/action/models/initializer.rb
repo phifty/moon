@@ -3,16 +3,17 @@
 # a model from it.
 class Moon::Action::Models::Initializer
 
-  def self.perform(context)
-    initialize_models context
+  def perform(context)
+    @context = context
+    initialize_models
     nil
   end
 
   private
 
-  def self.initialize_models(context)
-    context.parameters.each do |key, value|
-      context.models[key.to_sym] = Builder.new(key, value).model
+  def initialize_models
+    @context.parameters.each do |key, value|
+      @context.models[key.to_sym] = Builder.new(key, value).model
     end
   end
 

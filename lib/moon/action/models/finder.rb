@@ -3,31 +3,23 @@
 # for it. The result is assign to the context.
 class Moon::Action::Models::Finder
 
-  def initialize(context)
-    @context = context
-  end
-
-  def perform
-    find_models
+  def perform(context)
+    find_models context
     nil
   end
 
   private
 
-  def find_models
-    @context.parameters.each do |key, value|
-      find_model key, value if self.class.point_to_model?(key)
+  def find_models(context)
+    context.parameters.each do |key, value|
+      find_model context, key, value if self.class.point_to_model?(key)
     end
   end
 
-  def find_model(key, id)
+  def find_model(context, key, id)
     model_name = self.class.model_name key
     model = GOM::Storage.fetch id
-    @context.models[model_name.downcase.to_sym] = model
-  end
-
-  def self.perform(context)
-    new(context).perform
+    context.models[model_name.downcase.to_sym] = model
   end
 
   private

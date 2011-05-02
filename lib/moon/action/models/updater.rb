@@ -2,11 +2,8 @@
 # Uses the parameters in the context and tries to update the models.
 class Moon::Action::Models::Updater
 
-  def initialize(context)
+  def perform(context)
     @context = context
-  end
-
-  def perform
     @context.models.each do |model_key, model|
       Model.new(model, @context.parameters[model_key]).update
     end
