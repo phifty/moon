@@ -6,5 +6,6 @@ module Moon::Action::Model
   autoload :Index, File.join(File.dirname(__FILE__), "model", "index")
   autoload :Show, File.join(File.dirname(__FILE__), "model", "show")
   autoload :Update, File.join(File.dirname(__FILE__), "model", "update")
+  autoload :UpdateOrCreate, File.join(File.dirname(__FILE__), "model", "update_or_create")
 
 end
