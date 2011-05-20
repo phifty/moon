@@ -1,25 +1,33 @@
 
-# This action takes parameters that ends with '_id' out of the context and searches the fitting model
-# for it. The result is assign to the context.
+# This action takes parameter and session keys that ends with '_id' out of the context and searches the fitting model
+# for it. The result is assign to the context models.
 class Moon::Action::Models::Finder
 
   def perform(context)
-    find_models context
+    @context = context
+    find_session_models
+    find_parameter_models
     nil
   end
 
   private
 
-  def find_models(context)
-    context.parameters.each do |key, value|
-      find_model context, key, value if self.class.point_to_model?(key)
+  def find_session_models
+    @context.session.each do |key, value|
+      find_model key, value, "current_" if self.class.point_to_model?(key)
     end
   end
 
-  def find_model(context, key, id)
+  def find_parameter_models
+    @context.parameters.each do |key, value|
+      find_model key, value if self.class.point_to_model?(key)
+    end
+  end
+
+  def find_model(key, id, prefix = "")
     model_name = self.class.model_name key
     model = GOM::Storage.fetch id
-    context.models[model_name.downcase.to_sym] = model
+    @context.models[:"#{prefix}#{model_name.downcase}"] = model
   end
 
   private
