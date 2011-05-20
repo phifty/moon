@@ -1,6 +1,6 @@
 
 # Generic model update action. Stores the specified model to the storage.
-class Moon::Action::Model::Update
+class Moon::Action::Model::Store
 
   def initialize(model_symbol)
     @model_symbol = model_symbol
@@ -9,11 +9,11 @@ class Moon::Action::Model::Update
   def perform(context)
     model = context.models[@model_symbol]
     if model
-      storage_name = GOM::Object.storage_name model
+      storage_name = GOM::Object.storage_name(model) || context.application.storage_name
       GOM::Storage.store model, storage_name
-      Moon::Response::JSON::Message.new 200, "#{@model_symbol} updated."
+      nil
     else
-      Moon::Response::JSON::Message.new 401, "#{@model_symbol} update failed."
+      Moon::Response::JSON::Message.new 200, "No model initialized."
     end
   end
 
