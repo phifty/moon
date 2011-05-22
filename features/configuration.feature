@@ -3,6 +3,7 @@ Feature: Configuration
 
   Scenario: Configure routes
     Given the show post resource route
+    And valid post parameters
     When the show post is called
     Then the responded status code should be 200
 
