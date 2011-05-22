@@ -1,6 +1,6 @@
 require File.expand_path(File.join(File.dirname(__FILE__), "..", "..", "..", "spec_helper"))
 
-describe Moon::Action::ReferenceObject do
+describe Moon::Action::Reference do
 
   before :each do
     @model_one = mock Object

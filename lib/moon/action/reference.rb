@@ -1,6 +1,6 @@
 
 # The action creates a reference to the given store object and stores it in the given model attribute.
-class Moon::Action::ReferenceObject
+class Moon::Action::Reference
 
   def initialize(options)
     from, to = options.values_at :from, :to
