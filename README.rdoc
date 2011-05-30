@@ -3,6 +3,8 @@
 
 No fixed API yet. Documentation will follow...
 
+http://travis-ci.org/phifty/moon.png
+
 == Development
 
 Development has been done test-driven and the code follows at most the Clean Code paradigms. Code smells has been
