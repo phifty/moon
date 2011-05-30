@@ -1,5 +1,6 @@
-source "http://rubygems.org"
+source :rubygems
 
+gem "rake", "0.9.0"
 gem "unicorn"
 gem "sinatra"
 gem "configure", ">= 0.3.0"
