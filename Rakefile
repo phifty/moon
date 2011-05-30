@@ -1,4 +1,6 @@
-require 'rake/rdoctask'
+require 'rubygems'
+require 'rdoc'
+require 'rdoc/task'
 
 # Cucumber
 require 'cucumber/rake/task'
