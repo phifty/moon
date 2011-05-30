@@ -1,6 +1,4 @@
 require 'gom'
-require 'gom/filesystem-adapter'
-require 'gom/couchdb-adapter'
 
 module Moon
 

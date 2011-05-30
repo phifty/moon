@@ -22,7 +22,7 @@ Gem::Specification.new do |specification|
 
   specification.add_dependency "sinatra", ">= 1.0.0"
   specification.add_dependency "configure", ">= 0.3.0"
-  specification.add_dependency "gom", ">= 0.3.1"
+  specification.add_dependency "gom", ">= 0.4.1"
 
   specification.add_development_dependency "rspec", ">= 2"
   specification.add_development_dependency "reek", ">= 1.2"
