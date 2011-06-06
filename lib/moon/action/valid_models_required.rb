@@ -21,7 +21,7 @@ class Moon::Action::ValidModelsRequired
 
   def validate_model(key, model)
     checks = @context.application.configuration.validators[model.class]
-    validator = Moon::Validator.new checks
+    validator = Moon::Validator.new @context, checks
     validator.messages model
   end
 

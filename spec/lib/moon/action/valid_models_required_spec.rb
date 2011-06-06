@@ -27,12 +27,12 @@ describe Moon::Action::ValidModelsRequired do
   describe "perform" do
 
     it "should initialize the validator with the right checks" do
-      Moon::Validator.should_receive(:new).with(@checks).and_return(@validator)
+      Moon::Validator.should_receive(:new).with(@context, @checks).and_return(@validator)
       @action.perform @context
     end
 
     it "should run the validator" do
-      @validator.should_receive(:messages).and_return({ })
+      @validator.should_receive(:messages).with(@model).and_return({ })
       @action.perform @context
     end
 

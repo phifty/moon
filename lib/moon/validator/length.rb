@@ -6,7 +6,7 @@ class Moon::Validator::Length
     @range = range
   end
 
-  def messages(value)
+  def messages(value, context)
     raise ArgumentError, "Value doesn't response to :size" unless value.respond_to?(:size)
     size, minimum, maximum = value.size, @range.min, @range.max
     @range.include?(size) ?

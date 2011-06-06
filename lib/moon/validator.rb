@@ -8,8 +8,8 @@ class Moon::Validator
 
   attr_reader :model_class
 
-  def initialize(checks)
-    @checks = checks
+  def initialize(context, checks)
+    @context, @checks = context, checks
   end
 
   def messages(model)
@@ -29,7 +29,7 @@ class Moon::Validator
 
   def perform_attribute_checks(attribute, value, attribute_validators)
     attribute_validators.each do |attribute_validator|
-      messages = attribute_validator.messages value
+      messages = attribute_validator.messages value, @context
       add_messages attribute, messages
     end
   end

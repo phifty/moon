@@ -6,7 +6,7 @@ class Moon::Validator::Format
     @format = format
   end
 
-  def messages(value)
+  def messages(value, context)
     value =~ @format ? [ ] : [ "Has a wrong format." ]
   end
 

@@ -9,12 +9,12 @@ describe Moon::Validator::Format do
   describe "#messages" do
 
     it "should return an empty array" do
-      messages = @validator.messages "test@test.com"
+      messages = @validator.messages "test@test.com", :context
       messages.should == [ ]
     end
 
     it "should return the error message if value has wrong format" do
-      messages = @validator.messages "invalid"
+      messages = @validator.messages "invalid", :context
       messages.should == [ "Has a wrong format." ]
     end
 

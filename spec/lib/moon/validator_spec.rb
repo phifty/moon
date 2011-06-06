@@ -8,13 +8,13 @@ describe Moon::Validator do
     @attribute_validator = mock Moon::Validator::Presence, :messages => [ ], :to_ary => nil
     @checks = { :name => @attribute_validator }
 
-    @validator = described_class.new @checks
+    @validator = described_class.new :context, @checks
   end
 
   describe "#messages" do
 
     it "should check the attribute validator" do
-      @attribute_validator.should_receive(:messages).and_return([ ])
+      @attribute_validator.should_receive(:messages).with("test", :context).and_return([ ])
       @validator.messages @model
     end
 

@@ -9,23 +9,23 @@ describe Moon::Validator::Length do
   describe "#messages" do
 
     it "should return an empty array" do
-      messages = @validator.messages [ "one", "two" ]
+      messages = @validator.messages [ "one", "two" ], :context
       messages.should == [ ]
     end
 
     it "should raise #{ArgumentError} if value doesn't respond to :size" do
       lambda do
-        @validator.messages false
+        @validator.messages false, :context
       end.should raise_error(ArgumentError)
     end
 
     it "should return an error message if value size is too small" do
-      messages = @validator.messages [ "one" ]
+      messages = @validator.messages [ "one" ], :context
       messages.should == [ "Must have at least 2 entries." ]
     end
 
     it "should return an error message if value size is too big" do
-      messages = @validator.messages [ "one", "two", "three", "four" ]
+      messages = @validator.messages [ "one", "two", "three", "four" ], :context
       messages.should == [ "Must have at most 3 entries." ]
     end
 

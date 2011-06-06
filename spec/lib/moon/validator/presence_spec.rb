@@ -9,17 +9,17 @@ describe Moon::Validator::Presence do
   describe "#messages" do
 
     it "should return an empty array" do
-      messages = @validator.messages "value"
+      messages = @validator.messages "value", :context
       messages.should == [ ]
     end
 
     it "should return an error message if value is nil" do
-      messages = @validator.messages nil
+      messages = @validator.messages nil, :context
       messages.should == [ "Must be present." ]
     end
 
     it "should return an error message if value is blank" do
-      messages = @validator.messages ""
+      messages = @validator.messages "", :context
       messages.should == [ "Must be present." ]
     end
 
