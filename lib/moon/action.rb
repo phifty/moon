@@ -1,8 +1,7 @@
 
 module Moon::Action
 
-  autoload :Base, File.join(File.dirname(__FILE__), "action", "base")
-  autoload :BuildOptionHashes, File.join(File.dirname(__FILE__), "action", "build_option_hashes")
+  autoload :InjectTimestamps, File.join(File.dirname(__FILE__), "action", "inject_timestamps")
   autoload :Model, File.join(File.dirname(__FILE__), "action", "model")
   autoload :Models, File.join(File.dirname(__FILE__), "action", "models")
   autoload :RebuildArrays, File.join(File.dirname(__FILE__), "action", "rebuild_arrays")
