@@ -14,8 +14,8 @@ describe Moon::Action::InjectTimestamps do
   describe "#perform" do
 
     before :each do
-      @now = DateTime.now
-      DateTime.stub :now => @now
+      @now = Time.now
+      Time.stub :now => @now
 
       GOM::Object.stub :id => nil
     end

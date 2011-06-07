@@ -26,7 +26,7 @@ class Moon::Action::InjectTimestamps
   end
 
   def fetch_now
-    @now = DateTime.now
+    @now = Time.now
   end
 
   def has_id?
