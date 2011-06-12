@@ -19,6 +19,7 @@ class Moon::Application
 
   def configure(&block)
     @configuration = Configuration.new &block
+    @rack.session = @configuration.session
     @rack.routes = @configuration.routes
   end
 
