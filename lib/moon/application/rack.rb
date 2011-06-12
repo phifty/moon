@@ -25,7 +25,7 @@ class Moon::Application::Rack
 
   def initialize_transponder
     @transponder = Class.new Sinatra::Base
-    @transponder.disable :sessions
+    @transponder.enable :sessions
     @transponder.disable :show_exceptions
     @transponder.set :public, "public"
     @transponder.error do
