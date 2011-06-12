@@ -4,8 +4,11 @@ require 'configure'
 class Moon::Application::Configuration
 
   SCHEMA = Configure::Schema.build {
-    only :route, :validator, :formatter
+    only :session, :route, :validator, :formatter
     nested {
+      session {
+        only :secret
+      }
       route {
         only :http_method, :path, :actions
         argument_keys :http_method, :path
@@ -21,6 +24,10 @@ class Moon::Application::Configuration
 
   def initialize(&block)
     @hash = Configure.process SCHEMA, &block
+  end
+
+  def session
+    @hash[:session]
   end
 
   def routes

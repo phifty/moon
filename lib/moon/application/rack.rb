@@ -12,6 +12,11 @@ class Moon::Application::Rack
     initialize_transponder
   end
 
+  def session=(session)
+    @session = session
+    set_session_secret
+  end
+
   def routes=(routes)
     @routes = routes
     map_routes
@@ -39,6 +44,10 @@ class Moon::Application::Rack
     @routes.each do |route|
       Route.new(@application, @transponder, route).define
     end
+  end
+
+  def set_session_secret
+    @transponder.set :session_secret, @session[:secret]
   end
 
   # Abstraction for a application route

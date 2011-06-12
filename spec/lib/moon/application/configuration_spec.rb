@@ -7,6 +7,9 @@ describe Moon::Application::Configuration do
     @attribute_validator = attribute_validator = Object.new
     @formatter = formatter = Object.new
     @configuration = described_class.new {
+      session {
+        secret "secret"
+      }
       route {
         http_method :get
         path "/test"
@@ -23,6 +26,17 @@ describe Moon::Application::Configuration do
         object formatter
       }
     }
+  end
+
+  describe "#session" do
+
+    it "should return the session configuration" do
+      session = @configuration.session
+      session.should == {
+        :secret => "secret"
+      }
+    end
+
   end
 
   describe "#routes" do

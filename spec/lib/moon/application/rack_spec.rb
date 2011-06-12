@@ -14,6 +14,7 @@ describe Moon::Application::Rack do
     @action_two = mock Class, :perform => @response
 
     @rack = described_class.new @application
+    @rack.session = { :secret => "secret" }
     @rack.routes = [
       {
         :http_method => :get,
