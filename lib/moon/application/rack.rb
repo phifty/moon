@@ -47,7 +47,6 @@ class Moon::Application::Rack
   end
 
   def set_session_secret
-    puts "set secret: " + @session.inspect
     @transponder.set :session_secret, @session[:secret]
   end
 

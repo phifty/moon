@@ -3,7 +3,7 @@
 Gem::Specification.new do |specification|
   specification.name              = "moon"
   specification.version           = "0.0.2"
-  specification.date              = "2011-04-09"
+  specification.date              = "2011-06-22"
 
   specification.authors           = [ "Philipp Brüll" ]
   specification.email             = "b.phifty@gmail.com"
@@ -11,7 +11,7 @@ Gem::Specification.new do |specification|
   specification.rubyforge_project = "moon"
 
   specification.summary           = "Moon - A rack application library."
-  specification.description       = "A simple rack application library - first alpha release."
+  specification.description       = "A simple rack application library - second alpha release."
 
   specification.has_rdoc          = true
   specification.files             = [ "README.rdoc", "LICENSE", "Rakefile" ] + Dir["lib/**/*"] + Dir["spec/**/*"]
@@ -20,7 +20,7 @@ Gem::Specification.new do |specification|
 
   specification.test_files        = Dir["spec/**/*_spec.rb"]
 
-  specification.add_dependency "sinatra", ">= 1.0.0"
+  specification.add_dependency "sinatra", ">= 1.2.0"
   specification.add_dependency "configure", ">= 0.3.0"
   specification.add_dependency "gom", ">= 0.4.1"
 
