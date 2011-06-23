@@ -2,8 +2,8 @@
 
 Gem::Specification.new do |specification|
   specification.name              = "moon"
-  specification.version           = "0.0.2"
-  specification.date              = "2011-06-22"
+  specification.version           = "0.0.3"
+  specification.date              = "2011-06-23"
 
   specification.authors           = [ "Philipp Brüll" ]
   specification.email             = "b.phifty@gmail.com"
@@ -11,7 +11,7 @@ Gem::Specification.new do |specification|
   specification.rubyforge_project = "moon"
 
   specification.summary           = "Moon - A rack application library."
-  specification.description       = "A simple rack application library - second alpha release."
+  specification.description       = "A simple rack application library - alpha release."
 
   specification.has_rdoc          = true
   specification.files             = [ "README.rdoc", "LICENSE", "Rakefile" ] + Dir["lib/**/*"] + Dir["spec/**/*"]
