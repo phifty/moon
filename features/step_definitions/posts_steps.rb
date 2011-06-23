@@ -19,6 +19,9 @@ end
 
 Given /^the create post resource route$/ do
   application.configure do
+    session {
+      secret "test"
+    }
     route {
       http_method :post
       path "/posts"
@@ -37,6 +40,9 @@ end
 
 Given /^the show post resource route$/ do
   application.configure do
+    session {
+      secret "test"
+    }
     route {
       http_method :get
       path "/posts/1"
