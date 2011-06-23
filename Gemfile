@@ -3,6 +3,7 @@ source :rubygems
 gem "rake", "0.9.0"
 gem "unicorn"
 gem "sinatra"
+gem "xml-simple"
 gem "configure", ">= 0.3.0"
 gem "gom", ">= 0.4.1"
 
