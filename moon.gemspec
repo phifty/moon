@@ -2,8 +2,8 @@
 
 Gem::Specification.new do |specification|
   specification.name              = "moon"
-  specification.version           = "0.0.3"
-  specification.date              = "2011-06-23"
+  specification.version           = "0.0.4"
+  specification.date              = "2011-06-24"
 
   specification.authors           = [ "Philipp Brüll" ]
   specification.email             = "b.phifty@gmail.com"
