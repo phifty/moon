@@ -3,7 +3,7 @@ require File.expand_path(File.join(File.dirname(__FILE__), "..", "..", "..", "sp
 describe Moon::Response::XML do
 
   before :each do
-    @response = described_class.new 201, "root", { "message" => { "content" => "OK", "priority" => "normal" } }
+    @response = described_class.new 201, { "message" => { "content" => "OK", "priority" => "normal" } }
   end
 
   describe "status" do
@@ -25,7 +25,7 @@ describe Moon::Response::XML do
   describe "body" do
 
     it "should return the given hash encoded in json" do
-      @response.body.should == "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <message priority=\"normal\">OK</message>\n</root>\n"
+      @response.body.should == "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<message priority=\"normal\">OK</message>\n"
     end
 
   end

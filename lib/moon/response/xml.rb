@@ -6,8 +6,8 @@ class Moon::Response::XML < Moon::Response::Base
   attr_accessor :status
   attr_accessor :hash
 
-  def initialize(status, root_tag, hash = { })
-    @status, @root_tag, @hash = status, root_tag, hash
+  def initialize(status, hash = { })
+    @status, @hash = status, hash
   end
 
   def headers
@@ -15,7 +15,9 @@ class Moon::Response::XML < Moon::Response::Base
   end
 
   def body
-    XmlSimple.xml_out @hash, "RootName" => @root_tag, "XmlDeclaration" => "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+    XmlSimple.xml_out @hash,
+                      "XmlDeclaration" => "<?xml version=\"1.0\" encoding=\"UTF-8\"?>",
+                      "KeepRoot" => true
   end
 
 end
